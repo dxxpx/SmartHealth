@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:smarthome/screens/adminSide/adminFeedbackScreen.dart';
+import '../adminSide/adminFeedbackScreen.dart';
 
 class adminAnnouncementScreen extends StatefulWidget {
   @override

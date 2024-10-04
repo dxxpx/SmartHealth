@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:smarthome/screens/userSide/floor_plan_rooms/floor_plan.dart';
-import 'package:smarthome/screens/userSide/floor_plan_rooms/room_pages.dart';
+import '../userside/floor_plan_rooms/floor_plan.dart';
+import '../userside/floor_plan_rooms/room_pages.dart';
 
 class adminFloorPlanWidget extends StatefulWidget {
   @override
