@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:smarthome/Authentications/AdminLogin.dart';
-import 'package:smarthome/screens/homepage.dart';
-import 'package:smarthome/screens/userSide/floor_plan_rooms/floor_plan.dart';
-import 'package:smarthome/services/BlynkService.dart';
+import '../Authentication/AdminLogin.dart';
+import '../screens/userside/homepage.dart';
+import '../services/BlynkService.dart';
 
 import '../screens/adminSide/adminHome.dart';
 import 'RegisterScreen.dart';
