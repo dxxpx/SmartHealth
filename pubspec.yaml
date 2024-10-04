@@ -44,6 +44,19 @@ dependencies:
   dash_chat_2: ^0.0.18
   syncfusion_flutter_sliders: ^26.2.8
   syncfusion_flutter_gauges: ^26.2.8
+  google_generative_ai: ^0.4.4
+  font_awesome_flutter: ^10.1.0
+  flutter_local_notifications: ^17.0.0
+  lite_rolling_switch: ^1.0.1
+  flutter_expandable_fab: ^2.2.0
+  firebase_admin: ^0.3.0
+  image_picker: ^1.1.2
+  camera: ^0.11.0+2
+  path_provider: ^2.1.4
+  awesome_notifications: ^0.8.2
+  path: ^1.9.0
+  uni_links2: ^0.6.0+2
+  qr_flutter: ^4.1.0
 
 dev_dependencies:
   flutter_test:
