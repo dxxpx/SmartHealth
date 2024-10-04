@@ -6,6 +6,6 @@ The intel libraries used are:-
     
 The models with trained data is saved as pickle file while also uploaded as .py and .ipynb file along with their corresponding datasets
 Algorithms used - 
-1) XGBoostClassifier with gridsearchcv 
-2) Random Forest Classifier with gridsearch
+1) XGBoostClassifier with gridsearchcv to find best hyperparameters
+2) Random Forest Classifier with gridsearchcv to find best hyperparameters
 3) Tensorflow Keras LSTM with earlystop patience 3 and 76740 predictions when tested
