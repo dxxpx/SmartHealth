@@ -13,6 +13,11 @@ class _PatientsListPageState extends State<PatientsListPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Debugging: Check if the current user is not null
+    if (currentUser == null) {
+      return Center(child: Text('User not logged in.'));
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Patients List'),
@@ -20,14 +25,16 @@ class _PatientsListPageState extends State<PatientsListPage> {
         backgroundColor: Colors.teal,
       ),
       body: StreamBuilder<QuerySnapshot>(
+        // Adjusting the path to reference 'users' subcollection
         stream: FirebaseFirestore.instance
             .collection('doctors')
-            .doc(currentUser!.uid)
-            .collection('patients')
+            .doc(currentUser!.uid) // Current user's UID as the doctor ID
+            .collection('users') // Change from 'patients' to 'users'
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
-            return Center(child: Text('Error fetching patients.'));
+            return Center(
+                child: Text('Error fetching patients: ${snapshot.error}'));
           }
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
             return Center(child: Text('No patients found.'));

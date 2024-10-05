@@ -132,7 +132,9 @@
 // }
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart'; // Import FirebaseAuth
 import 'appointment_page.dart';
+import 'chat page.dart'; // Import your ChatPage
 
 class AllDoctorsPage extends StatefulWidget {
   @override
@@ -142,11 +144,14 @@ class AllDoctorsPage extends StatefulWidget {
 class _AllDoctorsPageState extends State<AllDoctorsPage> {
   Stream<List<DocumentSnapshot>>? stream;
   String searchQuery = '';
+  String? currentUserId;
+  String? currentUserName;
 
   @override
   void initState() {
     super.initState();
     stream = getAllDoctors();
+    _getCurrentUserInfo(); // Call to get current user info
   }
 
   Stream<List<DocumentSnapshot>> getAllDoctors() {
@@ -155,6 +160,20 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
         return snapshot.docs;
       },
     );
+  }
+
+  void _getCurrentUserInfo() async {
+    User? user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      currentUserId = user.uid; // Get current user ID
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUserId)
+          .get();
+      currentUserName =
+          userDoc['name'] ?? 'Unknown User'; // Get current user name
+      setState(() {}); // Refresh the UI
+    }
   }
 
   List<DocumentSnapshot> _filterDoctors(List<DocumentSnapshot> doctors) {
@@ -223,20 +242,53 @@ class _AllDoctorsPageState extends State<AllDoctorsPage> {
                         ),
                         title: Text(doctorName),
                         subtitle: Text(specialty),
-                        trailing: IconButton(
-                          icon:
-                              Icon(Icons.document_scanner, color: Colors.teal),
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => AppointmentPage(
-                                  doctorId: doctor.id,
-                                  doctorName: doctorName,
-                                ),
-                              ),
-                            );
-                          },
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.document_scanner,
+                                  color: Colors.teal),
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => AppointmentPage(
+                                      doctorId: doctor.id,
+                                      doctorName: doctorName,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                            IconButton(
+                              icon: Icon(Icons.chat, color: Colors.teal),
+                              onPressed: () {
+                                if (currentUserId != null &&
+                                    currentUserName != null) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => ChatPage(
+                                        doctorId: doctor.id,
+                                        doctorName: doctorName,
+                                        patientId:
+                                            currentUserId!, // Use the retrieved patient ID
+                                        patientName:
+                                            currentUserName!, // Use the retrieved patient name
+                                      ),
+                                    ),
+                                  );
+                                } else {
+                                  // Handle case where user info is not available
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text(
+                                            'User information not available')),
+                                  );
+                                }
+                              },
+                            ),
+                          ],
                         ),
                       ),
                     );
