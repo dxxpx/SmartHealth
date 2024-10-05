@@ -1,84 +1,92 @@
 #App Side
-Smart Health Application
-Overview
+Here's an updated `README.md` for your Smart Health Application:
+
+---
+
+# Smart Health Application
+
+## Overview
 The Smart Health Application is designed to provide an integrated experience for managing home and healthcare needs within a smart environment. This application consists of four main sections: Admin, User, Doctor, and a Registration page. Each user role offers different functionalities to enhance the health and home experience.
 
-Features
-1. Registration Page
-A user-friendly registration form for new users to sign up and gain access to the application features.
-2. Admin Screen
+## Features
+
+### 1. Registration Page
+- A user-friendly registration form for new users to sign up and gain access to the application features.
+
+### 2. Admin Screen
 The Admin section allows efficient management of the smart health environment:
+- **View Feedback**: Admins can view feedback provided by users regarding their experiences and suggestions for improvement.
+- **Add Announcements**: Admins can add important announcements that are visible to all users.
+- **Add Floor Plan**: Admins can upload and manage floor plans for easy navigation by users.
 
-View Feedback: Admins can view feedback provided by users regarding their experiences and suggestions for improvement.
-Add Announcements: Admins can add important announcements that are visible to all users.
-Add Floor Plan: Admins can upload and manage floor plans for easy navigation by users.
-3. User Screen
+### 3. User Screen
 The User section offers a wide range of functionalities to enhance their smart health and home experience:
+- **View Floor Plan**: Users can view the uploaded floor plan to understand the layout of their environment and navigate between different rooms.
+- **Control HVAC Settings**: Users can control HVAC (Heating, Ventilation, and Air Conditioning) settings for different rooms to maintain a comfortable environment.
+- **Community Engagement**: Users can interact with the community through the app, fostering a supportive atmosphere for discussions and activities.
+- **Chat with Doctor**: Users can chat with available doctors to discuss health-related questions.
+- **Appointments**: Users can schedule appointments with doctors for consultations.
+- **Provide Feedback**: Users can provide feedback about their experiences with the smart health application.
+- **View Announcements**: Users can stay updated with the latest information by viewing announcements made by the admin.
 
-View Floor Plan: Users can view the uploaded floor plan to understand the layout of their environment and navigate between different rooms.
-Control HVAC Settings: Users can control HVAC (Heating, Ventilation, and Air Conditioning) settings for different rooms to maintain a comfortable environment.
-Community Engagement: Users can interact with the community through the app, fostering a supportive atmosphere for discussions and activities.
-Chat with Doctor: Users can chat with available doctors to discuss health-related questions.
-Appointments: Users can schedule appointments with doctors for consultations.
-Provide Feedback: Users can provide feedback about their experiences with the smart health application.
-View Announcements: Users can stay updated with the latest information by viewing announcements made by the admin.
-4. Doctor Screen
+### 4. Doctor Screen
 The Doctor section provides specific functionalities for effective healthcare management:
+- **Chat Screen**: Doctors can communicate with users through a chat feature to address their health-related queries.
+- **View Active Appointments**: Doctors can view all upcoming appointments with users, allowing them to manage their schedules efficiently.
 
-Chat Screen: Doctors can communicate with users through a chat feature to address their health-related queries.
-View Active Appointments: Doctors can view all upcoming appointments with users, allowing them to manage their schedules efficiently.
-Technology Stack
-Frontend: Flutter (Dart)
-Backend: Node.js (Express)
-Database: Firebase (for real-time database, authentication, and storage)
-Real-time Communication: Firebase Realtime Database (used for chat functionality)
-Installation
-Clone the Repository:
+## Technology Stack
+- **Frontend**: Flutter (Dart)
+- **Backend**: Node.js (Express)
+- **Database**: Firebase (for real-time database, authentication, and storage)
+- **Real-time Communication**: Firebase Realtime Database (used for chat functionality)
 
-sh
-Copy code
-git clone https://github.com/your-repository/smart-health-app.git
-Navigate to Project Directory:
+## Installation
+1. **Clone the Repository**:
+   ```sh
+   git clone https://github.com/your-repository/smart-health-app.git
+   ```
+2. **Navigate to Project Directory**:
+   ```sh
+   cd smart-health-app
+   ```
+3. **Install Dependencies**:
+   - For Flutter Frontend:
+     ```sh
+     flutter pub get
+     ```
+   - For Node.js Backend:
+     ```sh
+     cd backend
+     npm install
+     ```
+4. **Set Up Firebase**:
+   - Configure your Firebase project.
+   - Add the `google-services.json` (for Android) or `GoogleService-Info.plist` (for iOS) files to the appropriate directories.
+   - Update the Firebase configuration in your Flutter project as needed.
 
-sh
-Copy code
-cd smart-health-app
-Install Dependencies:
+5. **Run the Application**:
+   - **Frontend**:
+     ```sh
+     flutter run
+     ```
+   - **Backend**:
+     ```sh
+     node server.js
+     ```
 
-For Flutter Frontend:
-sh
-Copy code
-flutter pub get
-For Node.js Backend:
-sh
-Copy code
-cd backend
-npm install
-Set Up Firebase:
+## Usage
+1. **Registration**: New users must register through the registration page to create an account.
+2. **Login**: Users can log in to their respective roles (Admin, User, or Doctor) to access various functionalities.
+3. **Admin Functions**: Add announcements, view user feedback, and manage the floor plan.
+4. **User Functions**: Control HVAC settings, navigate the floor plan, chat with doctors, book appointments, provide feedback, and view announcements.
+5. **Doctor Functions**: Manage appointments and communicate with users through chat.
 
-Configure your Firebase project.
-Add the google-services.json (for Android) or GoogleService-Info.plist (for iOS) files to the appropriate directories.
-Update the Firebase configuration in your Flutter project as needed.
-Run the Application:
 
-Frontend:
-sh
-Copy code
-flutter run
-Backend:
-sh
-Copy code
-node server.js
-Usage
-Registration: New users must register through the registration page to create an account.
-Login: Users can log in to their respective roles (Admin, User, or Doctor) to access various functionalities.
-Admin Functions: Add announcements, view user feedback, and manage the floor plan.
-User Functions: Control HVAC settings, navigate the floor plan, chat with doctors, book appointments, provide feedback, and view announcements.
-Doctor Functions: Manage appointments and communicate with users through chat.
+## Future Enhancements
+- **Voice Control Integration**: Adding voice control for managing HVAC settings.
+- **Video Consultations**: Integrating video calls for doctor appointments.
 
-Future Enhancements
-Voice Control Integration: Adding voice control for managing HVAC settings.
-Video Consultations: Integrating video calls for doctor appointments.
+
 # IoT - AI
 
 For IntelGenAI  Hackathon
