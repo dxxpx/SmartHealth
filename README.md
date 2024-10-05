@@ -39,6 +39,8 @@ The Doctor section provides specific functionalities for effective healthcare ma
 - **Backend**: Node.js (Express)
 - **Database**: Firebase (for real-time database, authentication, and storage)
 - **Real-time Communication**: Firebase Realtime Database (used for chat functionality)
+- **Blynk Cloud**: For real-time IoT data management and integration
+- **Intel OneAPI**: To leverage optimized libraries and tools for efficient performance
 
 ## Installation
 1. **Clone the Repository**:
