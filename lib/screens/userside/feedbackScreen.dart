@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:smarthome/screens/userSide/MyFeedbacks.dart';
-import 'package:smarthome/tools/UiComponents.dart';
+import 'package:smarthealth/screens/userSide/MyFeedbacks.dart';
+import 'package:smarthealth/tools/UiComponents.dart';
 
 class UserFeedbackScreen extends StatefulWidget {
   @override
