@@ -320,7 +320,7 @@ class _ChatPageState extends State<ChatPage> {
         await FirebaseFirestore.instance
             .collection('doctors')
             .doc(widget.doctorId)
-            .collection('patients')
+            .collection('users')
             .doc(widget.patientId)
             .collection('messages')
             .add(messageData);
@@ -329,7 +329,7 @@ class _ChatPageState extends State<ChatPage> {
         await FirebaseFirestore.instance
             .collection('doctors')
             .doc(widget.doctorId)
-            .collection('patients')
+            .collection('users')
             .doc(widget.patientId)
             .update({'lastMessage': _messageController.text});
 
@@ -366,7 +366,7 @@ class _ChatPageState extends State<ChatPage> {
               stream: FirebaseFirestore.instance
                   .collection('doctors')
                   .doc(widget.doctorId)
-                  .collection('patients')
+                  .collection('users')
                   .doc(widget.patientId)
                   .collection('messages')
                   .orderBy('timestamp', descending: true)
