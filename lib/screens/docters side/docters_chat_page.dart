@@ -281,7 +281,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class ChatPage extends StatefulWidget {
   final String doctorId;
@@ -307,6 +306,7 @@ class _ChatPageState extends State<ChatPage> {
 
   Future<void> _sendMessage() async {
     if (_messageController.text.isNotEmpty || _images.isNotEmpty) {
+      // Create message data with images if any
       Map<String, dynamic> messageData = {
         'text': _messageController.text,
         'images': _images.map((img) => img.path).toList(),
@@ -315,25 +315,30 @@ class _ChatPageState extends State<ChatPage> {
         'timestamp': FieldValue.serverTimestamp(),
       };
 
-      await FirebaseFirestore.instance
-          .collection('doctors')
-          .doc(widget.doctorId)
-          .collection('patients')
-          .doc(widget.patientId)
-          .collection('messages')
-          .add(messageData);
+      try {
+        // Store the message in Firestore
+        await FirebaseFirestore.instance
+            .collection('doctors')
+            .doc(widget.doctorId)
+            .collection('patients')
+            .doc(widget.patientId)
+            .collection('messages')
+            .add(messageData);
 
-      // Optionally, update last message in patient's document
-      await FirebaseFirestore.instance
-          .collection('doctors')
-          .doc(widget.doctorId)
-          .collection('patients')
-          .doc(widget.patientId)
-          .update({'lastMessage': _messageController.text});
+        // Optionally, update last message in the patient's document
+        await FirebaseFirestore.instance
+            .collection('doctors')
+            .doc(widget.doctorId)
+            .collection('patients')
+            .doc(widget.patientId)
+            .update({'lastMessage': _messageController.text});
 
-      _messageController.clear();
-      _images.clear(); // Reset images list
-      setState(() {});
+        _messageController.clear();
+        _images.clear(); // Reset images list
+        setState(() {});
+      } catch (e) {
+        print("Error sending message: $e");
+      }
     }
   }
 
@@ -361,14 +366,16 @@ class _ChatPageState extends State<ChatPage> {
               stream: FirebaseFirestore.instance
                   .collection('doctors')
                   .doc(widget.doctorId)
-                  .collection('users')
+                  .collection('patients')
                   .doc(widget.patientId)
                   .collection('messages')
                   .orderBy('timestamp', descending: true)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
-                  return Center(child: Text('Error fetching messages'));
+                  return Center(
+                      child:
+                          Text('Error fetching messages: ${snapshot.error}'));
                 }
                 if (!snapshot.hasData) {
                   return Center(child: CircularProgressIndicator());

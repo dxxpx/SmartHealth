@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
 import 'list_patients.dart'; // Import the doctor's chat page
 
 class DoctorHomePage extends StatefulWidget {
@@ -40,6 +39,7 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
               subtitle: Text('View all messages from your patients'),
               trailing: Icon(Icons.arrow_forward_ios, color: Colors.teal),
               onTap: () {
+                // Navigate to chat page with parameters
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -93,7 +93,6 @@ class _DoctorHomePageState extends State<DoctorHomePage> {
                           leading: Icon(Icons.video_call, color: Colors.teal),
                           title: Text('Appointment with $patientName'),
                           subtitle: Text('Time: $appointmentTime'),
-
                         ),
                       );
                     },

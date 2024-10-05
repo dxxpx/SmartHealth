@@ -233,17 +233,22 @@
 //   }
 // }
 import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class ChatPage extends StatefulWidget {
   final String doctorId;
   final String doctorName;
+  final String patientId;
+  final String patientName;
 
-  ChatPage({required this.doctorId, required this.doctorName});
+  ChatPage({
+    required this.doctorId,
+    required this.doctorName,
+    required this.patientId,
+    required this.patientName,
+  });
 
   @override
   _ChatPageState createState() => _ChatPageState();
@@ -252,77 +257,52 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
   final TextEditingController _messageController = TextEditingController();
   final ImagePicker _picker = ImagePicker();
-  final User? currentUser = FirebaseAuth.instance.currentUser;
-  List<XFile> _images = [];
-  String? _userName;
-
-  @override
-  void initState() {
-    super.initState();
-    _getUserName();
-  }
-
-  Future<void> _getUserName() async {
-    try {
-      if (currentUser != null) {
-        DocumentSnapshot userDoc = await FirebaseFirestore.instance
-            .collection('users')
-            .doc(currentUser!.uid)
-            .get();
-        if (userDoc.exists) {
-          setState(() {
-            _userName = userDoc['name'] ?? 'Unknown';
-          });
-        } else {
-          setState(() {
-            _userName = 'Unknown';
-          });
-        }
-      }
-    } catch (e) {
-      print('Error fetching username: $e');
-      setState(() {
-        _userName = 'Unknown';
-      });
-    }
-  }
+  final List<XFile> _images = [];
 
   Future<void> _sendMessage() async {
     if (_messageController.text.isNotEmpty || _images.isNotEmpty) {
-      // Create a message map
+      // Create message data with images if any
       Map<String, dynamic> messageData = {
         'text': _messageController.text,
         'images': _images.map((img) => img.path).toList(),
-        'userName': _userName,
-        'userId': currentUser?.uid,
+        'userName': widget.doctorName,
+        'userId': widget.doctorId,
         'timestamp': FieldValue.serverTimestamp(),
       };
 
-      // Add the message to the Firestore collection specific to the doctor and patient user
-      await FirebaseFirestore.instance
-          .collection('doctors')
-          .doc(widget.doctorId)
-          .collection('users')
-          .doc(currentUser!.uid)
-          .collection('messages')
-          .add(messageData);
+      try {
+        // Store the message in Firestore
+        await FirebaseFirestore.instance
+            .collection('doctors')
+            .doc(widget.doctorId)
+            .collection('patients')
+            .doc(widget.patientId)
+            .collection('messages')
+            .add(messageData);
 
-      _messageController.clear();
-      _images.clear(); // Reset images list
-      setState(() {});
+        // Optionally, update last message in the patient's document
+        await FirebaseFirestore.instance
+            .collection('doctors')
+            .doc(widget.doctorId)
+            .collection('patients')
+            .doc(widget.patientId)
+            .update({'lastMessage': _messageController.text});
+
+        _messageController.clear();
+        _images.clear(); // Reset images list
+        setState(() {});
+      } catch (e) {
+        print("Error sending message: $e");
+      }
     }
   }
 
   Future<void> _pickImages() async {
-    try {
-      final List<XFile>? selectedImages = await _picker.pickMultiImage();
-      if (selectedImages != null) {
-        setState(() {
-          _images = selectedImages;
-        });
-      }
-    } catch (e) {
-      print('Error picking images: $e');
+    final List<XFile>? selectedImages = await _picker.pickMultiImage();
+    if (selectedImages != null) {
+      setState(() {
+        _images.addAll(selectedImages);
+      });
     }
   }
 
@@ -330,7 +310,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Chat with Dr. ${widget.doctorName}'),
+        title: Text('Chat with ${widget.patientName}'),
         centerTitle: true,
         backgroundColor: Colors.teal,
       ),
@@ -341,26 +321,30 @@ class _ChatPageState extends State<ChatPage> {
               stream: FirebaseFirestore.instance
                   .collection('doctors')
                   .doc(widget.doctorId)
-                  .collection('users')
-                  .doc(currentUser!.uid)
+                  .collection('patients')
+                  .doc(widget.patientId)
                   .collection('messages')
-                  .orderBy('timestamp', descending: true) // Chronological order
+                  .orderBy('timestamp', descending: true)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.hasError) {
-                  return Center(child: Text('Error fetching messages'));
+                  return Center(
+                      child:
+                          Text('Error fetching messages: ${snapshot.error}'));
                 }
                 if (!snapshot.hasData) {
                   return Center(child: CircularProgressIndicator());
                 }
 
                 final messages = snapshot.data!.docs;
+
                 return ListView.builder(
+                  reverse: true,
                   itemCount: messages.length,
                   itemBuilder: (context, index) {
                     final message =
                         messages[index].data() as Map<String, dynamic>;
-                    final isUserMessage = message['userName'] == _userName;
+                    final isUserMessage = message['userId'] == widget.doctorId;
 
                     return Align(
                       alignment: isUserMessage
