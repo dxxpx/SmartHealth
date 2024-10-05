@@ -1,16 +1,14 @@
-# smarthealth
+IoT - AI
 
 For IntelGenAI  Hackathon
 
-## Getting Started
+This project aims to make the best use of IoT data using a flutter built app. It is used
 
-This project is a starting point for a Flutter application.
+1) To monitor and control building parameters from the admin side with help of IoT
 
-A few resources to get you started if this is your first Flutter project:
+2) Runs various ML models on input data for uses like predictive maintenance of machines, prediction of water quality and potability based on parameters of the water, solar power output prediction, fire recognition from live video feed, sign language detection from live video feed and facial recognition for intrusion detection
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+3) The users are able to see the value of environmental factors they are exposed to and are able to get recommmendations from Gemini AI for their health tailored with their personal health data just like Gemini gives admins building recommendations
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+4) The users can anonymous send feedbacks to admins and are also able to connect to doctors while their account willbe groupeed based on their physical location
+
