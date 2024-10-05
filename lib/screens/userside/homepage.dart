@@ -10,7 +10,7 @@ import 'package:smarthealth/screens/userSide/floor_plan_rooms/floor_plan.dart';
 import 'package:smarthealth/screens/userSide/userAnnouncementsPage.dart';
 import 'package:smarthealth/screens/userSide/user_request _page.dart';
 import 'package:smarthealth/screens/docters side/view_nearby_docters.dart';
-
+import 'package:smarthealth/screens/community/community page.dart';
 import 'package:smarthealth/tools/UiComponents.dart';
 import '../sensors/sensorUi.dart';
 
@@ -184,6 +184,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   MaterialPageRoute(
                       builder: (context) =>
                           AllDoctorsPage())); // Navigate to CommunityPage
+            },
+          ),
+          FloatingActionButton(
+            child: Icon(Icons.group), // Community icon
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          QueryListPage())); // Navigate to CommunityPage
             },
           ),
         ],

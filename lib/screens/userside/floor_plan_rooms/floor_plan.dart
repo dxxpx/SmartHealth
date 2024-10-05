@@ -189,7 +189,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:smarthome/screens/userSide/floor_plan_rooms/room_pages.dart';
+import 'package:smarthealth/screens/userSide/floor_plan_rooms/room_pages.dart';
 
 class FloorPlanWidget extends StatefulWidget {
   @override
