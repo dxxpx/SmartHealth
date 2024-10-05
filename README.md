@@ -58,17 +58,7 @@ Utilizing Intel OneAPI to enhance application performance:
 ## Installation
 Follow the steps below to set up the Smart Health Application on your local machine.
 
-### 1. Clone the Repository
-```sh
-git clone https://github.com/your-repository/smart-health-app.git
-```
-
-### 2. Navigate to Project Directory
-```sh
-cd smart-health-app
-```
-
-### 3. Install Dependencies
+### 1. Install Dependencies
 
 #### For Flutter Frontend:
 ```sh
