@@ -23,7 +23,7 @@ The Admin section allows efficient management of the smart health environment:
 The User section offers a wide range of functionalities to enhance their smart health and home experience:
 - **View Floor Plan**: Users can view the uploaded floor plan to understand the layout of their environment and navigate between different rooms.
 - **Control HVAC Settings**: Users can control HVAC (Heating, Ventilation, and Air Conditioning) settings for different rooms to maintain a comfortable environment.
-- **Community Engagement**: Users can interact with the community through the app, fostering a supportive atmosphere for discussions and activities.
+- **Community Engagement**: Users can interact with the community through the app, fostering a supportive atmosphere for discussions and activities.Users will also receive alerts if there is any disease outbreak in their area.
 - **Chat with Doctor**: Users can chat with available doctors to discuss health-related questions.
 - **Appointments**: Users can schedule appointments with doctors for consultations.
 - **Provide Feedback**: Users can provide feedback about their experiences with the smart health application.
