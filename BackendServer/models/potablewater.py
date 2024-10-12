@@ -1,31 +1,63 @@
+from flask import Flask, request, jsonify
 import pickle
 import pandas as pd
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.ensemble import RandomForestClassifier
-import json
 
-data = pd.read_csv("C:\\Users\\Amrutha\\AndroidStudioProjects\\bitsnbytes\\HomeIQ - App\\smarthome\\my-node-backend\\datasets\\water_potability.csv")
-df = data.dropna()
+with open('potable_prediction.pkl', 'rb') as file:
+    potable_water_model = pickle.load(file)
 
-X = df[['ph', 'Hardness', 'Solids', 'Chloramines', 'Sulfate', 'Conductivity', 'Turbidity']]
-y = df['Potability']
+with open('predictive_model_final.pkl', 'rb') as file:
+    predictive_model = pickle.load(file)
 
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=63)
+app = Flask(__name__)
 
-param_grid = {
-    'n_estimators': [100, 200, 300],
-    'max_depth': [None, 5, 10],
-    'min_samples_split': [2, 5, 10],
-    'min_samples_leaf': [1, 2, 4]
-}
+@app.route('/predict', methods=['POST'])
+def predict():
+    try:
+        # Get JSON data from request
+        input_data = request.get_json()
 
+        # Convert input JSON to DataFrame
+        input_df = pd.DataFrame([input_data])
 
-rf_classifier = RandomForestClassifier(random_state=90)
-grid_search = GridSearchCV(estimator=rf_classifier, param_grid=param_grid, cv=5, scoring='accuracy')
-grid_search.fit(X_train, y_train)
+        # Make prediction
+        prediction = potable_water_model.predict(input_df)[0]  # 0 or 1
 
-best_rf_classifier = grid_search.best_estimator_
-with open('potable_prediction.pkl', 'wb') as file:
-    pickle.dump(best_rf_classifier, file)
+        # Map prediction to human-readable output
+        result = "Potable" if prediction == 1 else "Not potable"
 
-print("Model trained and saved successfully.")
+        # Return JSON response
+        return jsonify({
+            "input": input_data,
+            "result": result,
+            "prediction": str(prediction) 
+            })
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+@app.route('/predictive-model', methods=['POST'])
+def modelprediction():
+    try:
+        # Get JSON data from the request
+        input_data = request.get_json()
+        if not input_data:
+            return jsonify({"error": "No input data provided"}), 400
+
+        # Convert input to DataFrame
+        input_df = pd.DataFrame(input_data)
+        
+        # Perform prediction
+        prediction = predictive_model.predict(input_df)
+        
+        # Decode the numeric prediction to failure type
+        failure_types = {0: "No Failure", 1: "Error"}
+        decoded_prediction = [failure_types[pred] for pred in prediction]
+
+        # Return the prediction as JSON response
+        return jsonify({"prediction": decoded_prediction})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, debug=True)
